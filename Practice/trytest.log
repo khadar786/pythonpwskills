@@ -1,0 +1,32 @@
+INFO:root:this is a start of my prog
+INFO:root:asking user to enter age
+INFO:root:user has entered the age
+INFO:root:i am checking negative condition
+ERROR:root:User have entered a neagative age which is not valid
+INFO:root:this is a start of my prog
+INFO:root:asking user to enter age
+INFO:root:user has entered the age
+INFO:root:Valid user
+INFO:root:this is a start of my prog
+INFO:root:asking user to enter age
+INFO:root:user has entered the age is 25
+INFO:root:Valid user
+INFO:root:this is a start of my prog
+INFO:root:asking user to enter age
+INFO:root:user has entered the age is 23
+INFO:root:Valid user
+2023-09-30 12:44:11,678
+2023-09-30 12:44:11,678
+2023-09-30 12:44:13,576
+2023-09-30 12:44:13,577
+2023-09-30 12:45:22,911
+2023-09-30 12:45:22,911
+2023-09-30 12:45:25,422
+2023-09-30 12:45:25,422
+2023-09-30 12:45:44,447- this is a start of my prog
+2023-09-30 12:45:44,447- asking user to enter age
+2023-09-30 12:45:46,099- user has entered the age is 25
+2023-09-30 12:45:46,099- Valid user
+2023-09-30 12:48:42,519- INFO this is a start of my prog
+2023-09-30 12:48:42,758- INFO asking user to enter age
+2023-09-30 12:48:47,616- ERROR invalid literal for int() with base 10: '-235gff'
