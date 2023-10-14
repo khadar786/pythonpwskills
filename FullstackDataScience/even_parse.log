@@ -1,0 +1,37 @@
+2023-09-30 12:57:37,595- INFO [4, 5, 6, 7, 8, 9, 0]
+2023-09-30 12:57:52,240- INFO inside try block
+2023-09-30 12:57:52,241- INFO inside for loop i=4
+2023-09-30 12:57:52,241- INFO checking the value of i 
+2023-09-30 12:57:52,242- INFO appeding the value i =4
+2023-09-30 12:57:52,242- INFO inside for loop i=5
+2023-09-30 12:57:52,242- INFO inside for loop i=6
+2023-09-30 12:57:52,242- INFO checking the value of i 
+2023-09-30 12:57:52,242- INFO appeding the value i =6
+2023-09-30 12:57:52,242- INFO inside for loop i=7
+2023-09-30 12:57:52,242- INFO inside for loop i=8
+2023-09-30 12:57:52,242- INFO checking the value of i 
+2023-09-30 12:57:52,242- INFO appeding the value i =8
+2023-09-30 12:57:52,242- INFO inside for loop i=9
+2023-09-30 12:57:52,243- INFO inside for loop i=0
+2023-09-30 12:57:52,243- INFO checking the value of i 
+2023-09-30 12:57:52,244- INFO appeding the value i =0
+2023-09-30 12:58:22,254- INFO inside try block
+2023-09-30 12:58:37,664- INFO [4, 5, 6, 7, 8, 9, 0]
+2023-09-30 12:58:38,488- INFO inside try block
+2023-09-30 12:58:38,490- INFO inside for loop i=4
+2023-09-30 12:58:38,490- INFO checking the value of i 
+2023-09-30 12:58:38,490- INFO appeding the value i =4
+2023-09-30 12:58:38,490- INFO inside for loop i=5
+2023-09-30 12:58:38,490- INFO inside for loop i=6
+2023-09-30 12:58:38,490- INFO checking the value of i 
+2023-09-30 12:58:38,490- INFO appeding the value i =6
+2023-09-30 12:58:38,490- INFO inside for loop i=7
+2023-09-30 12:58:38,490- INFO inside for loop i=8
+2023-09-30 12:58:38,490- INFO checking the value of i 
+2023-09-30 12:58:38,490- INFO appeding the value i =8
+2023-09-30 12:58:38,490- INFO inside for loop i=9
+2023-09-30 12:58:38,490- INFO inside for loop i=0
+2023-09-30 12:58:38,490- INFO checking the value of i 
+2023-09-30 12:58:38,490- INFO appeding the value i =0
+2023-09-30 12:58:39,549- INFO inside try block
+2023-09-30 12:58:39,549- ERROR 'int' object is not iterable
