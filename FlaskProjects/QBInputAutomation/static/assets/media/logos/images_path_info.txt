@@ -1,0 +1,26 @@
+Menu 
+assets/media/logos/
+logo_white_clr.png  55*54
+================
+Response Menu
+assets/media/logos/
+logo-letter-2.png  198*138
+================
+Login page ocean theme
+assets/media/new-images/
+logo-long.png 198*138
+================
+Login page digital theme
+assets/media/logos/
+web-login-logo_w.png 350*230
+=================
+Student Menu
+assets/media/new-images/
+logo.png 60*60
+================
+assets/media/logos/
+favicon.ico
+================
+/pdf_includes
+school_logo.php
+https://www.base64-image.de/
