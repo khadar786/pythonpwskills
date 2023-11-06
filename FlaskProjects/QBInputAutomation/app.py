@@ -1,10 +1,12 @@
 from datetime import datetime,time,timedelta
 import re
 from uuid import UUID
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import HTMLResponse, JSONResponse
 from flask import Flask,render_template,request,redirect,url_for,session
 import os,glob,json
 import pathlib
-from fastapi import Body, FastAPI, Path, Query,Request,Cookie,Form,File,Header
+from fastapi import Body, FastAPI, HTTPException, Path, Query,Request,Cookie,Form,File,Header,status,UploadFile
 from fastapi.middleware.wsgi import WSGIMiddleware
 #Ramesh sir
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
@@ -618,6 +620,139 @@ async def read_items():
 @app.get("/arbitrary",response_model=dict[str,float])
 async def get_arbitrary():
     return {"foo":1,"bar":2}
+
+"""
+Response Status Codes
+"""
+@app.post("/res_items/",status_code=status.HTTP_201_CREATED)
+async def create_res_item(name:str):
+  return {"name":name}
+
+@app.delete("/res_delitems/{pk}",status_code=status.HTTP_204_NO_CONTENT)
+async def delete_item(pk:str): 
+  print('pk',pk)
+  return
+
+@app.get("/res_items/",status_code=status.HTTP_302_FOUND)
+async def read_items_redirect():
+  return {"hello":"world"} 
+
+"""
+Form Fields
+"""
+@app.post("/login/")
+async def login(username:str=Form(...),
+                password:str=Form(...)
+                ):
+  print(password)
+  return {"username":username}
+
+class User(BaseModel):
+  username:str
+  password:str
+
+@app.post("/login-json/")
+async def login_json(username:str=Body(...),
+                     password:str=Body(...)
+                     ):
+  return username
+
+"""
+Request Files
+"""
+
+"""@app.post("/files/")
+async def create_file(file:bytes|None=File(None,description="A file read as bytes")):
+  if not file:
+    return {"message":"No file sent"}
+  
+  return {"file":file}
+
+@app.post('/uploadfile/')
+async def create_file(file:UploadFile|None=File(...,description="A file read as UploadFile")):
+  if not file:
+    return {"message":"No upload file sent"}
+  contents=await file.read()
+  return {"file":file.filename}"""
+
+@app.post("/files/")
+async def create_file(files:list[bytes]=File(...,description="A file read as bytes")):
+  return {"file_sizes":[len(file) for file in files]}
+
+@app.post('/uploadfiles/')
+async def create_file(files:list[UploadFile]=File(...,description="A file read as UploadFile")):
+  return {"filename":[file.filename for file in files]}
+
+@app.get("/fastapi_html")
+async def main():
+  content="""
+  <!DOCTYPE html>
+<html>
+<body>
+<form action="/files/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+<form action="/uploadfiles/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+</body>
+</html>
+  """
+  return HTMLResponse(content=content)
+
+"""
+Request Forms and Files
+"""
+@app.post("/request_forms_files")
+async def requestFormFiles(
+                          file:bytes=File(...),
+                          fileb:UploadFile=File(...),
+                          token:str=Form(...),
+                          hello:str=Body(...)
+                          ):
+  return {
+    "file_size":len(file),
+    "fileb_content_type":fileb.content_type,
+    "token":token,
+    "hello":hello
+  }
+
+"""
+Handling Errors
+"""
+items={"foo":{"name":"Item for wrestlers"}}
+
+@app.get("/handling_items/{item_id}")
+async def handling_err_read_item(item_id:str):
+  if item_id not in items:
+    raise HTTPException(status_code=404,
+                        detail="Item not found",
+                        headers={"X-Error":"There goes my error"}
+                        )
+  return {"item":items[item_id]}
+
+class UnicornException(Exception):
+  def __init__(self,name:str):
+    self.name=name
+  
+@app.exception_handler(UnicornException)
+async def unicorn_exception_handler(request:Request,exc:UnicornException):
+  return JSONResponse(
+    status_code=404,
+    content={"message":f"Oops! {exc.name} did something.There goes a rainbow..."}
+  )
+
+@app.get("/unicorns/{name}")
+async def read_unicorns(name:str):
+  if name=='yolo':
+    raise UnicornException(name=name)
+  
+  return {"unicorn_name":name}
+
+@app.exception_handler(RequestValidationError)
+async def validation_exce
   
 #Flask section
 @flask_app.get("/")
