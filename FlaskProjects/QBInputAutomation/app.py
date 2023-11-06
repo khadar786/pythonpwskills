@@ -10,7 +10,7 @@ from fastapi.middleware.wsgi import WSGIMiddleware
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
 import uvicorn
 from enum import Enum
-from typing import Optional
+from typing import List, Literal, Optional, Union
 
 #Init  FastAPI App
 app=FastAPI()
@@ -417,9 +417,207 @@ async def read_items(
    "duration":duration
  }
  
- """
+"""
   Cookie and Header Parameters
 """
+@app.get("/cookie_items")
+async def cookie_read_items(
+  cookie_id:str|None=Cookie(None),
+  accept_encoding:str|None=Header(None),
+  sec_ch_ua:str|None=Header(None),
+  user_agent:str|None=Header(None),
+  x_token: list[str]|None = Header(None),
+  #x_token: list[str] = Query([]),
+  ):
+  return {
+          "cookie_id":cookie_id,
+          "Accept-Encoding":accept_encoding,
+          "sec_ch_ua":sec_ch_ua,
+          "User-Agent":user_agent,
+          "X-token values":x_token
+         }
+
+"""
+  Response Model
+"""
+'''
+class ResponseItem(BaseModel):
+  name:str
+  description:str|None=None
+  price:float
+  tax:float|None=None
+  tags:list[str]=[]
+
+@app.post('/response_create_items')
+async def res_create_items(item:ResponseItem):
+  return item
+'''
+
+'''class UserIn(BaseModel):
+  username:str
+  password:str
+  email:EmailStr
+  full_name:str|None=None'''
+class UserBase(BaseModel):
+  username:str
+  password:str
+  email:EmailStr
+  
+class UserIn(UserBase):
+  full_name:str|None=None
+
+class UserOut(UserBase):
+  pass
+
+@app.post("/user/",response_model=UserOut)
+async def create_user(user:UserIn):
+  return user  
+
+class ResponseItem(BaseModel):
+  name:str
+  description:str|None=None
+  price:float
+  tax:float=10.5
+  tags:list[str]=[]
+
+items={
+  "foo":{
+    "name":"Foo",
+    "price":50.2
+  },
+  "bar":{
+    "name":"Bar",
+    "description":"the bartenders",
+    "price":62,
+    "tax":20.2
+  },
+  "baz":{
+    "name":"Baz",
+    "description":None,
+    "price":50.2,
+    "tax":10.5,
+    "tags":[]
+  }
+}
+#@app.get('/response_items/{item_id}',response_model=ResponseItem,response_model_exclude_unset=True)
+@app.get('/response_items/{item_id}',response_model=ResponseItem)
+async def read_item(item_id:Literal["foo","bar","baz"]):
+  return items[item_id]
+
+@app.get('/response_items/{item_id}/name',response_model=ResponseItem,response_model_include={"name","description"})
+async def read_item_name(item_id:Literal["foo","bar","baz"]):
+  return items[item_id]
+
+@app.get('/response_items/{item_id}/public',response_model=ResponseItem,response_model_exclude={"tax"})
+async def read_items_public_data(item_id:Literal["foo","bar","baz"]):
+  return items[item_id]
+
+
+"""
+  Extra Models
+"""
+'''class UserIn(BaseModel):
+  username: str
+  password:str
+  email: EmailStr
+  full_name: str | None = None
+
+class UserOut(BaseModel):
+  username: str
+  email: EmailStr
+  full_name: str | None = None
+
+class UserInDB(BaseModel):
+  username: str
+  hashed_password:str
+  email: EmailStr
+  full_name: str | None = None
+
+def fake_password_hasher(raw_password:str):
+  return "supersecret{raw_password}"
+
+def fake_save_user(user_in:UserIn):
+  hashed_password=fake_password_hasher(user_in.password)
+  user_in_db=UserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
+  print("userin.dict",user_in.model_dump(mode='json'))
+  print("User 'saved'.")
+  return user_in_db
+
+@app.post("/extra_user/",response_model=UserOut)
+async def create_user(user_in:UserIn):
+  user_saved=fake_save_user(user_in)
+  return user_saved'''
+
+class UserBase(BaseModel):
+  username: str
+  email: EmailStr
+  full_name: str | None = None
+  
+class UserIn(UserBase):
+  password:str
+
+class UserOut(UserBase):
+  pass
+
+class UserInDB(UserBase):
+  hashed_password:str
+  
+
+def fake_password_hasher(raw_password:str):
+  return "supersecret{raw_password}"
+
+def fake_save_user(user_in:UserIn):
+  hashed_password=fake_password_hasher(user_in.password)
+  user_in_db=UserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
+  print("userin.dict",user_in.model_dump(mode='json'))
+  print("User 'saved'.")
+  return user_in_db
+
+@app.post("/extra_user/",response_model=UserOut)
+async def create_user(user_in:UserIn):
+  user_saved=fake_save_user(user_in)
+  return user_saved
+
+class BaseItem(BaseModel):
+    description: str
+    type: str
+
+class CarItem(BaseItem):
+    type: str|None = "car"
+
+class PlaneItem(BaseItem):
+    type: str|None = "plane"
+    size: int
+
+vitems = {
+    "item1": {"description": "All my friends drive a low rider", "type": "car"},
+    "item2": {
+        "description": "Music is my aeroplane, it's my aeroplane",
+        "type": "plane",
+        "size": 5,
+    },
+}
+
+@app.get("/vitems/{item_id}",response_model=Union[PlaneItem, CarItem])
+async def vread_items(item_id: Literal["item1", "item2"]):
+  return vitems[item_id]
+
+class ListItem(BaseModel):
+    name: str
+    description: str
+
+list_items = [
+    {"name": "Foo", "description": "There comes my hero"},
+    {"name": "Red", "description": "It's my aeroplane"},
+]
+
+@app.get("/list_items/", response_model=list[ListItem])
+async def read_items():
+    return list_items
+
+@app.get("/arbitrary",response_model=dict[str,float])
+async def get_arbitrary():
+    return {"foo":1,"bar":2}
 
 
 #Flask section
