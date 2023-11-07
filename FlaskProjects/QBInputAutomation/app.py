@@ -1,19 +1,45 @@
+from redis.asyncio import Redis
+from enum import Enum
+import random
+from typing import List, Literal, Optional, Union, Any
 from datetime import datetime,time,timedelta
 import re
 from uuid import UUID
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import (
+    http_exception_handler,
+    request_validation_exception_handler,
+)
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import HTMLResponse, JSONResponse,PlainTextResponse,ORJSONResponse
 from flask import Flask,render_template,request,redirect,url_for,session
 import os,glob,json
 import pathlib
-from fastapi import Body, FastAPI, Path, Query,Request,Cookie,Form,File,Header
+from fastapi import Body, FastAPI, HTTPException, Path, Query,Cookie,Form,File,Header,status,UploadFile,Depends,Response,Request
 from fastapi.middleware.wsgi import WSGIMiddleware
+#from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 #Ramesh sir
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
+from starlette.exceptions import HTTPException as StarletteHTTPException
+#from starlette.responses import HTMLResponse
+#from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 import uvicorn
-from enum import Enum
-from typing import List, Literal, Optional, Union
+# from fastapi_redis_session.config import basicConfig
+# basicConfig(
+#     redisURL="redis://localhost:6379/1",
+#     sessionIdName="sessionId",
+#     sessionIdGenerator=lambda: str(random.randint(1000, 9999)),
+#     expireTime=timedelta(days=1),
+#     )
+from redsession import ServerSessionMiddleware
+from redsession.backend import RedisBackend
 
 #Init  FastAPI App
-app=FastAPI()
+app=FastAPI(default_response_class=ORJSONResponse)
+redis = Redis(host="127.0.0.1",port="6379")
+app.add_middleware(
+    ServerSessionMiddleware, backend=RedisBackend(redis), secret_key="secret"
+)
 
 #Flask config
 flask_app=Flask(__name__)
@@ -467,7 +493,7 @@ class UserIn(UserBase):
   full_name:str|None=None
 
 class UserOut(UserBase):
-  pass
+  test:str
 
 @app.post("/user/",response_model=UserOut)
 async def create_user(user:UserIn):
@@ -548,33 +574,33 @@ async def create_user(user_in:UserIn):
   user_saved=fake_save_user(user_in)
   return user_saved'''
 
-class UserBase(BaseModel):
+class NUserBase(BaseModel):
   username: str
   email: EmailStr
   full_name: str | None = None
   
-class UserIn(UserBase):
+class NUserIn(NUserBase):
   password:str
 
-class UserOut(UserBase):
+class NUserOut(NUserBase):
   pass
 
-class UserInDB(UserBase):
+class NUserInDB(NUserBase):
   hashed_password:str
   
 
 def fake_password_hasher(raw_password:str):
   return "supersecret{raw_password}"
 
-def fake_save_user(user_in:UserIn):
+def fake_save_user(user_in:NUserIn):
   hashed_password=fake_password_hasher(user_in.password)
-  user_in_db=UserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
+  user_in_db=NUserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
   print("userin.dict",user_in.model_dump(mode='json'))
   print("User 'saved'.")
   return user_in_db
 
-@app.post("/extra_user/",response_model=UserOut)
-async def create_user(user_in:UserIn):
+@app.post("/extra_user/",response_model=NUserOut)
+async def create_user(user_in:NUserIn):
   user_saved=fake_save_user(user_in)
   return user_saved
 
@@ -618,6 +644,243 @@ async def read_items():
 @app.get("/arbitrary",response_model=dict[str,float])
 async def get_arbitrary():
     return {"foo":1,"bar":2}
+
+
+"""
+Response Status Codes
+"""
+@app.post("/res_items/",status_code=status.HTTP_201_CREATED)
+async def create_res_item(name:str):
+  return {"name":name}
+
+@app.delete("/res_delitems/{pk}",status_code=status.HTTP_204_NO_CONTENT)
+async def delete_item(pk:str): 
+  print('pk',pk)
+  return
+
+@app.get("/res_items/",status_code=status.HTTP_302_FOUND)
+async def read_items_redirect():
+  return {"hello":"world"} 
+
+"""
+Form Fields
+"""
+@app.post("/login/")
+async def login(username:str=Form(...),
+                password:str=Form(...)
+                ):
+  print(password)
+  return {"username":username}
+
+class User(BaseModel):
+  username:str
+  password:str
+
+@app.post("/login-json/")
+async def login_json(username:str=Body(...),
+                     password:str=Body(...)
+                     ):
+  return username
+
+"""
+Request Files
+"""
+
+"""@app.post("/files/")
+async def create_file(file:bytes|None=File(None,description="A file read as bytes")):
+  if not file:
+    return {"message":"No file sent"}
+  
+  return {"file":file}
+
+@app.post('/uploadfile/')
+async def create_file(file:UploadFile|None=File(...,description="A file read as UploadFile")):
+  if not file:
+    return {"message":"No upload file sent"}
+  contents=await file.read()
+  return {"file":file.filename}"""
+
+@app.post("/files/")
+async def create_file(files:list[bytes]=File(...,description="A file read as bytes")):
+  return {"file_sizes":[len(file) for file in files]}
+
+@app.post('/uploadfiles/')
+async def create_file(files:list[UploadFile]=File(...,description="A file read as UploadFile")):
+  return {"filename":[file.filename for file in files]}
+
+@app.get("/fastapi_html")
+async def main():
+  content="""
+  <!DOCTYPE html>
+<html>
+<body>
+<form action="/files/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+<form action="/uploadfiles/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+</body>
+</html>
+  """
+  return HTMLResponse(content=content)
+
+"""
+Request Forms and Files
+"""
+@app.post("/request_forms_files")
+async def requestFormFiles(
+                          file:bytes=File(...),
+                          fileb:UploadFile=File(...),
+                          token:str=Form(...),
+                          hello:str=Body(...)
+                          ):
+  return {
+    "file_size":len(file),
+    "fileb_content_type":fileb.content_type,
+    "token":token,
+    "hello":hello
+  }
+
+"""
+Handling Errors
+"""
+items={"foo":{"name":"Item for wrestlers"}}
+
+@app.get("/handling_items/{item_id}")
+async def handling_err_read_item(item_id:str):
+  if item_id not in items:
+    raise HTTPException(status_code=404,
+                        detail="Item not found",
+                        headers={"X-Error":"There goes my error"}
+                        )
+  return {"item":items[item_id]}
+
+class UnicornException(Exception):
+  def __init__(self,name:str):
+    self.name=name
+  
+@app.exception_handler(UnicornException)
+async def unicorn_exception_handler(request:Request,exc:UnicornException):
+  return JSONResponse(
+    status_code=404,
+    content={"message":f"Oops! {exc.name} did something.There goes a rainbow..."}
+  )
+
+@app.get("/unicorns/{name}")
+async def read_unicorns(name:str):
+  if name=='yolo':
+    raise UnicornException(name=name)
+  
+  return {"unicorn_name":name}
+
+# @app.exception_handler(RequestValidationError)
+# async def validation_exception_handler(request,exc):
+#   return PlainTextResponse(str(exc),status_code=400)
+
+# @app.exception_handler(StarletteHTTPException)
+# async def http_exception_handler(request,exc):
+#   return PlainTextResponse(str(exc),status_code=exc.status_code)
+
+# @app.get("/validation_items/{item_id}")
+# async def read_validation_items(item_id:int):
+#   if item_id==3:
+#     raise HTTPException(status_code=418,detail="Hope! I don't like 3.")
+#   return {"item_id":item_id}
+
+# @app.exception_handler(RequestValidationError)
+# async def validation_exception_handler(request=Request,exc=RequestValidationError):
+#   return JSONResponse(
+#     status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+#     content=jsonable_encoder({"detail":exc.errors(),"body":exc.body})
+#   )
+
+# class Item(BaseModel):
+#     title: str
+#     size: int
+
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request,exc):
+  print(f"OMG! An HTTp error!: {repr(exc)}")
+  return await http_exception_handler(request,exc)
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request=Request,exc=RequestValidationError):
+  print(f"OMG! The client sent invalid data : {exc}")
+  return await request_validation_exception_handler(request,exc)
+
+@app.get("/blah_items/{item_id}")
+async def read_items(item_id:int):
+  if item_id==3:
+    raise HTTPException(status_code=418,detail="Nope! I don't like 3.")
+  return {"item_id":item_id}
+  
+@app.post("/handling_err_items/")
+async def create_item(item:Item):
+  return {"item":item}
+
+"""
+  Path Operation Configuration
+"""
+class PathOptItem(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: set[str] = set()
+
+class Tags(Enum):
+    items = "items"
+    users = "users"
+    
+@app.post("/pathopt_items/",
+          response_model=PathOptItem,
+          status_code=status.HTTP_201_CREATED,
+          #tags=Tags[Tags.items],
+          #summary="Create an Item-type item",
+          # description="Create an item with all the information: "
+          # "name; description; price; tax; and a set of "
+          # "unique tags",
+          #response_description="The created item",
+          )
+async def create_item(item: PathOptItem):
+  return item
+
+@app.get("/pathopt_items/")
+async def read_items():
+    return [{"name": "Foo", "price": 42}]
+
+
+@app.get("/users/")
+async def read_users():
+    return [{"username": "PhoebeBuffay"}]
+
+@app.get("/get_session")
+async def get_session(request: Request):
+    return {"session": request.session}
+
+"""
+  Session Management
+"""
+@app.post("/set_session")
+async def set_session(request: Request):
+    request.session.update({"id": 1})
+    return {"session": request.session}
+
+
+@app.put("/update_session")
+async def update_session(request: Request):
+    request.session.clear()
+    request.session.update({"user_id": 2})
+    return {"session": request.session}
+
+
+@app.delete("/delete_session")
+async def delete_session(request: Request):
+    request.session.clear()
+    return {"session": request.session}
 
 
 #Flask section
