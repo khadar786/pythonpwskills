@@ -1,18 +1,35 @@
+from enum import Enum
+import random
+from typing import List, Literal, Optional, Union, Any
 from datetime import datetime,time,timedelta
 import re
 from uuid import UUID
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.exception_handlers import (
+    http_exception_handler,
+    request_validation_exception_handler,
+)
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import HTMLResponse, JSONResponse,PlainTextResponse
 from flask import Flask,render_template,request,redirect,url_for,session
 import os,glob,json
 import pathlib
-from fastapi import Body, FastAPI, HTTPException, Path, Query,Request,Cookie,Form,File,Header,status,UploadFile
+from fastapi import Body, FastAPI, HTTPException, Path, Query,Cookie,Form,File,Header,status,UploadFile,Depends,Response,Request
 from fastapi.middleware.wsgi import WSGIMiddleware
+#from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 #Ramesh sir
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
+from starlette.exceptions import HTTPException as StarletteHTTPException
+#from starlette.responses import HTMLResponse
+from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 import uvicorn
-from enum import Enum
-from typing import List, Literal, Optional, Union
+# from fastapi_redis_session.config import basicConfig
+# basicConfig(
+#     redisURL="redis://localhost:6379/1",
+#     sessionIdName="sessionId",
+#     sessionIdGenerator=lambda: str(random.randint(1000, 9999)),
+#     expireTime=timedelta(days=1),
+#     )
 
 #Init  FastAPI App
 app=FastAPI()
@@ -469,7 +486,7 @@ class UserIn(UserBase):
   full_name:str|None=None
 
 class UserOut(UserBase):
-  pass
+  test:str
 
 @app.post("/user/",response_model=UserOut)
 async def create_user(user:UserIn):
@@ -550,33 +567,33 @@ async def create_user(user_in:UserIn):
   user_saved=fake_save_user(user_in)
   return user_saved'''
 
-class UserBase(BaseModel):
+class NUserBase(BaseModel):
   username: str
   email: EmailStr
   full_name: str | None = None
   
-class UserIn(UserBase):
+class NUserIn(NUserBase):
   password:str
 
-class UserOut(UserBase):
+class NUserOut(NUserBase):
   pass
 
-class UserInDB(UserBase):
+class NUserInDB(NUserBase):
   hashed_password:str
   
 
 def fake_password_hasher(raw_password:str):
   return "supersecret{raw_password}"
 
-def fake_save_user(user_in:UserIn):
+def fake_save_user(user_in:NUserIn):
   hashed_password=fake_password_hasher(user_in.password)
-  user_in_db=UserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
+  user_in_db=NUserInDB(**user_in.model_dump(mode='json'),hashed_password=hashed_password)
   print("userin.dict",user_in.model_dump(mode='json'))
   print("User 'saved'.")
   return user_in_db
 
-@app.post("/extra_user/",response_model=UserOut)
-async def create_user(user_in:UserIn):
+@app.post("/extra_user/",response_model=NUserOut)
+async def create_user(user_in:NUserIn):
   user_saved=fake_save_user(user_in)
   return user_saved
 
@@ -751,8 +768,116 @@ async def read_unicorns(name:str):
   
   return {"unicorn_name":name}
 
+# @app.exception_handler(RequestValidationError)
+# async def validation_exception_handler(request,exc):
+#   return PlainTextResponse(str(exc),status_code=400)
+
+# @app.exception_handler(StarletteHTTPException)
+# async def http_exception_handler(request,exc):
+#   return PlainTextResponse(str(exc),status_code=exc.status_code)
+
+# @app.get("/validation_items/{item_id}")
+# async def read_validation_items(item_id:int):
+#   if item_id==3:
+#     raise HTTPException(status_code=418,detail="Hope! I don't like 3.")
+#   return {"item_id":item_id}
+
+# @app.exception_handler(RequestValidationError)
+# async def validation_exception_handler(request=Request,exc=RequestValidationError):
+#   return JSONResponse(
+#     status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+#     content=jsonable_encoder({"detail":exc.errors(),"body":exc.body})
+#   )
+
+# class Item(BaseModel):
+#     title: str
+#     size: int
+
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request,exc):
+  print(f"OMG! An HTTp error!: {repr(exc)}")
+  return await http_exception_handler(request,exc)
+
 @app.exception_handler(RequestValidationError)
-async def validation_exce
+async def validation_exception_handler(request=Request,exc=RequestValidationError):
+  print(f"OMG! The client sent invalid data : {exc}")
+  return await request_validation_exception_handler(request,exc)
+
+@app.get("/blah_items/{item_id}")
+async def read_items(item_id:int):
+  if item_id==3:
+    raise HTTPException(status_code=418,detail="Nope! I don't like 3.")
+  return {"item_id":item_id}
+  
+@app.post("/handling_err_items/")
+async def create_item(item:Item):
+  return {"item":item}
+
+"""
+  Path Operation Configuration
+"""
+class PathOptItem(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: set[str] = set()
+
+class Tags(Enum):
+    items = "items"
+    users = "users"
+    
+@app.post("/pathopt_items/",
+          response_model=PathOptItem,
+          status_code=status.HTTP_201_CREATED,
+          #tags=Tags[Tags.items],
+          #summary="Create an Item-type item",
+          # description="Create an item with all the information: "
+          # "name; description; price; tax; and a set of "
+          # "unique tags",
+          #response_description="The created item",
+          )
+async def create_item(item: PathOptItem):
+  return item
+
+@app.get("/pathopt_items/")
+async def read_items():
+    return [{"name": "Foo", "price": 42}]
+
+
+@app.get("/users/")
+async def read_users():
+    return [{"username": "PhoebeBuffay"}]
+
+"""
+  Session Handling
+"""
+@app.post("/setSession")
+async def _setSession(
+    request: Request, 
+    response: Response, 
+    sessionStorage: SessionStorage = Depends(getSessionStorage)
+):
+  try:
+    print(await request.body())
+    sessionData = await request.json()
+    
+    #sessionData = await json.loads(request)
+    setSession(response, sessionData, sessionStorage)
+  except Exception as e:
+    print(e, await request.body())
+
+@app.get("/getSession")
+async def _setSession(session: Any = Depends(getSession)):
+    return session
+
+@app.post("/deleteSession")
+async def _deleteSession(
+    sessionId: str = Depends(getSessionId), 
+    sessionStorage: SessionStorage = Depends(getSessionStorage)
+):
+    deleteSession(sessionId, sessionStorage)
+    return None
   
 #Flask section
 @flask_app.get("/")
