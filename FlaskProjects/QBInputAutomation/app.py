@@ -36,10 +36,14 @@ from redsession.backend import RedisBackend
 
 #Init  FastAPI App
 app=FastAPI(default_response_class=ORJSONResponse)
-redis = Redis(host="127.0.0.1",port="6379")
-app.add_middleware(
-    ServerSessionMiddleware, backend=RedisBackend(redis), secret_key="secret"
-)
+try:
+  redis = Redis(host="127.0.0.1",port="6379")
+  app.add_middleware(
+      ServerSessionMiddleware, backend=RedisBackend(redis), secret_key="secret"
+  )
+except Exception as e:
+  print(e)
+
 
 #Flask config
 flask_app=Flask(__name__)
@@ -857,16 +861,22 @@ async def read_items():
 async def read_users():
     return [{"username": "PhoebeBuffay"}]
 
-@app.get("/get_session")
-async def get_session(request: Request):
-    return {"session": request.session}
 
 """
   Session Management
 """
+@app.get("/get_session")
+async def get_session(request: Request):
+     try:
+       result=await request.session
+       return {"session": result}
+     except Exception as e:
+       print(e)
+     
+  
 @app.post("/set_session")
 async def set_session(request: Request):
-    request.session.update({"id": 1})
+    request.session.update({"user_id": 1})
     return {"session": request.session}
 
 

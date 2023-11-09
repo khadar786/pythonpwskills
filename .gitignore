@@ -1,3 +1,5 @@
 venv/
 FlaskProjects/TEST_API/testapinew
 FlaskProjects/QBInputAutomation/qpenv
+FlaskProjects/RedisSession/redisenv
+FlaskProjects/PathOperationConfiguration/fastapi
