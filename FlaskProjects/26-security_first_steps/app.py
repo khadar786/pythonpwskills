@@ -48,7 +48,7 @@ fake_users_db = {
         full_name="John Doe",
         email="johndoe@example.com",
         hashed_password="fakehashedsecret",
-        disabled=True,
+        disabled=False,
     ),
     "alice": dict(
         username="alice",
@@ -66,7 +66,7 @@ class User(BaseModel):
     username:str
     email:str|None=None
     full_name:str|None=None
-    disable:bool | None=None
+    disabled:bool | None=None
 
 class UserInDB(User):
     hashed_password:str
@@ -93,12 +93,10 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
 
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
-    print(current_user)
-    """ if current_user['disabled']:
+    #print(current_user.disabled)
+    if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user """
-    return "success"
-
+    return current_user
 
 @app.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):

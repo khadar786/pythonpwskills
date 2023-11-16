@@ -30,3 +30,5 @@ FlaskProjects/24-sub-dependencies/fastapienv
 FlaskProjects/24-sub-dependencies/fastapienv
 FlaskProjects/25-dependencies_in_path_operation_decorators/fastapienv
 FlaskProjects/26-security_first_steps/fastapienv
+FlaskProjects/27-security_oauth_jwt/fastapienv
+FlaskProjects/28-middleware_and_CORS/fastapienv
