@@ -27,3 +27,6 @@ FlaskProjects/21-JSON_compatible_encoder/fastapienv
 FlaskProjects/22-dependencies_intro/fastapienv
 FlaskProjects/23-classes_as_dependencies/fastapienv
 FlaskProjects/24-sub-dependencies/fastapienv
+FlaskProjects/24-sub-dependencies/fastapienv
+FlaskProjects/25-dependencies_in_path_operation_decorators/fastapienv
+FlaskProjects/26-security_first_steps/fastapienv
