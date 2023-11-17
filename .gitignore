@@ -32,3 +32,14 @@ FlaskProjects/25-dependencies_in_path_operation_decorators/fastapienv
 FlaskProjects/26-security_first_steps/fastapienv
 FlaskProjects/27-security_oauth_jwt/fastapienv
 FlaskProjects/28-middleware_and_CORS/fastapienv
+FlaskProjects/29-sql_databases/fastapienv
+FlaskProjects/29-sql_databases/fast-api-frontend/node_modules
+FlaskProjects/29-sql_databases/fast-api-frontend/.DS_Store
+FlaskProjects/29-sql_databases/fast-api-frontend/build
+FlaskProjects/29-sql_databases/fast-api-frontend/.svelte-kit
+FlaskProjects/29-sql_databases/fast-api-frontend/package
+FlaskProjects/29-sql_databases/fast-api-frontend/.env
+FlaskProjects/29-sql_databases/fast-api-frontend/.env.*
+FlaskProjects/29-sql_databases/fast-api-frontend/!.env.example
+FlaskProjects/29-sql_databases/fast-api-frontend/vite.config.js.timestamp-*
+FlaskProjects/29-sql_databases/fast-api-frontend/vite.config.ts.timestamp-*
