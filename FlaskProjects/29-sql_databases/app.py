@@ -1,4 +1,3 @@
-from redis.asyncio import Redis
 from enum import Enum
 import random
 from typing import List, Literal, Optional, Union, Any
@@ -30,9 +29,14 @@ from jose import jwt, JWTError
 #from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 import uvicorn
 import time
-import crud,models,schemas
+
 from sqlalchemy.orm import Session
+import crud
+import models
+import schemas
 from database import SessionLocal,engine
+
+models.Base.metadata.create_all(bind=engine)
 
 #Init  FastAPI App
 app=FastAPI(default_response_class=ORJSONResponse)
@@ -48,26 +52,27 @@ flask_app=Flask(__name__)
 app.mount('/qbadmin',WSGIMiddleware(flask_app))
 
 ## 28: Middleware and CORS
-class MyMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self,request:Request,call_next):
-        start_time=time.time()
-        response=await call_next(request)
-        process_time=time.time()-start_time
-        response.headers['X-Process-Time']=str(process_time)
-        return response
+# Dependency
+def get_db():
+    db=SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-origins=["http://localhost:8000",
-         "http://localhost:3000",
-         "http://127.0.0.1:5173"]
-app.add_middleware(MyMiddleware)
-app.add_middleware(CORSMiddleware,allow_origins=origins)
+@app.post("/users/",response_model=schemas.User,status_code=201)
+def create_user(user:schemas.UserCreate,db:Session=Depends(get_db)):
+    #print(db)
+    db_user=crud.get_user_by_email(db,email=user.email)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    return crud.create_user(db=db, user=user)
 
-@app.get("/blah")
-async def blah():
-    return {"hello": "world"}   
-  
-#npm init svelte fast-api-frontend
-#Select -None
+
+@app.get("/users/",response_model=list[schemas.User])
+def read_users(skip:int=0,limit:int=100,db:Session=Depends(get_db)):
+    users=crud.get_users(db,skip=skip,limit=limit)
+    return users
 
 #Flask section
 @flask_app.get("/")
