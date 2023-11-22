@@ -1,0 +1,77 @@
+2023-11-18 13:15:50,562 root INFO this is my info log
+2023-11-18 13:23:45,910 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,910 root INFO this is the value of i am logging 1
+2023-11-18 13:23:45,910 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,910 root INFO this is the value of i am logging 2
+2023-11-18 13:23:45,910 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,910 root INFO this is the value of i am logging 3
+2023-11-18 13:23:45,910 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,910 root INFO this is the value of i am logging 4
+2023-11-18 13:23:45,912 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,913 root INFO this is the value of i am logging [4, 5, 6]
+2023-11-18 13:23:45,913 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,913 root INFO this is the value of i am logging sudh
+2023-11-18 13:23:45,913 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:23:45,913 root INFO this is the value of i am logging kumar
+2023-11-18 13:25:58,585 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:25:58,585 root INFO this is the value of i am logging 1
+2023-11-18 13:25:58,586 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:25:58,586 root INFO this is the value of i am logging 2
+2023-11-18 13:25:58,586 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:25:58,586 root INFO this is the value of i am logging 3
+2023-11-18 13:25:58,586 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:25:58,586 root INFO this is the value of i am logging 4
+2023-11-18 13:25:58,586 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:25:58,586 root INFO this is the value of i am logging [4, 5, 6]
+2023-11-18 13:26:34,042 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,043 root INFO this is the value of i am logging 1
+2023-11-18 13:26:34,043 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,043 root INFO this is the value of i am logging 2
+2023-11-18 13:26:34,043 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,043 root INFO this is the value of i am logging 3
+2023-11-18 13:26:34,043 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,043 root INFO this is the value of i am logging 4
+2023-11-18 13:26:34,043 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,043 root INFO this is the value of i am logging [4, 5, 6]
+2023-11-18 13:26:34,043 root INFO logging my j 4 and i is [4, 5, 6]
+2023-11-18 13:26:34,044 root INFO logging my j 5 and i is [4, 5, 6]
+2023-11-18 13:26:34,044 root INFO logging my j 6 and i is [4, 5, 6]
+2023-11-18 13:26:34,044 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,044 root INFO this is the value of i am logging sudh
+2023-11-18 13:26:34,044 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:26:34,044 root INFO this is the value of i am logging kumar
+2023-11-18 13:28:06,542 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,542 root INFO this is the value of i am logging 1
+2023-11-18 13:28:06,542 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,542 root INFO this is the value of i am logging 2
+2023-11-18 13:28:06,542 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,542 root INFO this is the value of i am logging 3
+2023-11-18 13:28:06,542 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,542 root INFO this is the value of i am logging 4
+2023-11-18 13:28:06,542 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,543 root INFO this is the value of i am logging [4, 5, 6]
+2023-11-18 13:28:06,543 root INFO logging my j 4 and i is [4, 5, 6]
+2023-11-18 13:28:06,543 root INFO logging my j 5 and i is [4, 5, 6]
+2023-11-18 13:28:06,543 root INFO logging my j 6 and i is [4, 5, 6]
+2023-11-18 13:28:06,543 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,543 root INFO this is the value of i am logging sudh
+2023-11-18 13:28:06,543 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:06,543 root INFO this is the value of i am logging kumar
+2023-11-18 13:28:14,638 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging 1
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging 2
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging 3
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging 4
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging [4, 5, 6]
+2023-11-18 13:28:14,639 root INFO logging my j 4 and i is [4, 5, 6]
+2023-11-18 13:28:14,639 root INFO logging my j 5 and i is [4, 5, 6]
+2023-11-18 13:28:14,639 root INFO logging my j 6 and i is [4, 5, 6]
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,639 root INFO this is the value of i am logging sudh
+2023-11-18 13:28:14,639 root INFO this is the start of my first for loop [1, 2, 3, 4, [4, 5, 6], 'sudh', 'kumar']
+2023-11-18 13:28:14,640 root INFO this is the value of i am logging kumar
+2023-11-18 13:28:14,640 root INFO this is my final result with all int [1, 2, 3, 4, 4, 5, 6] ,with all string ['sudh', 'kumar']
