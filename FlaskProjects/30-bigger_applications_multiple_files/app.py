@@ -1,4 +1,3 @@
-#from redis.asyncio import Redis
 from enum import Enum
 import random
 from typing import List, Literal, Optional, Union, Any
@@ -12,60 +11,40 @@ from fastapi.exception_handlers import (
 )
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse, JSONResponse,PlainTextResponse,ORJSONResponse
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from flask import Flask,render_template,request,redirect,url_for,session
 import os,glob,json
 import pathlib
 from fastapi import Body, FastAPI, HTTPException, Path, Query,Cookie,Form,File,Header,status,UploadFile,Depends,Response,Request
 from fastapi.middleware.wsgi import WSGIMiddleware
 #from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
+from fastapi.middleware.cors import CORSMiddleware
 #Ramesh sir
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from starlette.middleware.base import BaseHTTPMiddleware
+from passlib.context import CryptContext
+from jose import jwt, JWTError
 #from starlette.responses import HTMLResponse
 #from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 import uvicorn
-# from fastapi_redis_session.config import basicConfig
-# basicConfig(
-#     redisURL="redis://localhost:6379/1",
-#     sessionIdName="sessionId",
-#     sessionIdGenerator=lambda: str(random.randint(1000, 9999)),
-#     expireTime=timedelta(days=1),
-#     )
-from redsession import ServerSessionMiddleware
-from redsession.backend import RedisBackend
+import time
 
-#Init  FastAPI App
-app=FastAPI(default_response_class=ORJSONResponse)
+from sqlalchemy.orm import Session
+from sub_app.dependencies import get_token_header,get_query_token
+#from sub_app.routers.users import router as user_router
+#from sub_app.routers.items import router as items_router
+from sub_app.routers import users_router
+from sub_app.routers import items_router
 
+#30 Bigger Applications - Multiple Files
+app=FastAPI(dependencies=[Depends(get_query_token)])
+app.include_router(users_router)
+app.include_router(items_router)
 
-#Flask config
-flask_app=Flask(__name__)
-#Mount Flask on Faskapi
-app.mount('/qbadmin',WSGIMiddleware(flask_app))
-
-#Fastapi section
-#Basic get method
 @app.get("/")
-async def getMethod():
-    return {'text':"Fastapi section"}
-
-#Basic post method
-@app.post("/post")
-async def post(request:Request):
-  return {'message':'hello from the post message'}
-
-#Basic put method
-@app.put("/put")
-async def put():
-  return {'message':'hello from the put message'}
-  
-
-
-
-#Flask section
-@flask_app.get("/")
-def login_page():
-    return render_template('pages/index.html')
+async def root():
+    return {"message": "Hello Bigger Applications!"}
 
 
 if __name__=='__main__':
