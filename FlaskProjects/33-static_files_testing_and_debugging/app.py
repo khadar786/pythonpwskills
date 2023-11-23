@@ -17,6 +17,7 @@ import os,glob,json
 import pathlib
 from fastapi import Body, FastAPI, HTTPException, Path, Query,Cookie,Form,File,Header,status,UploadFile,Depends,Response,Request,BackgroundTasks
 from fastapi.middleware.wsgi import WSGIMiddleware
+from fastapi.staticfiles import StaticFiles
 #from fastapi_redis_session import deleteSession, getSession, getSessionId, getSessionStorage, setSession, SessionStorage
 #Ramesh sir
 from pydantic import BaseModel, EmailStr,Field, HttpUrl
@@ -26,54 +27,62 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 import uvicorn
 import time
 
+## Part 33: Static Files, Testing, and Debugging
 #Init  FastAPI App
-app=FastAPI(default_response_class=ORJSONResponse)
+app=FastAPI()
+
+app.mount("/static",StaticFiles(directory="static"),name="static")
+fake_secret_token="coneofsilence"
+fake_db=dict(
+    foo=dict(
+        id="foo",
+        title="Foo",
+        description="There goes my hero",
+    ),
+    bar=dict(
+        id="bar",
+        title="Bar",
+        description="The bartenders",
+    )
+)
+
+class Item(BaseModel):
+    id:str
+    title:str
+    description:str | None=None
 
 #Basic get method
 @app.get("/")
 async def getMethod():
     return {'text':"Fastapi section"}
 
-#Flask config
-flask_app=Flask(__name__)
-#Mount Flask on Faskapi
-app.mount('/qbadmin',WSGIMiddleware(flask_app))
+@app.get("/items/{item_id}")
+async def read_main(item_id:str,x_token:str=Header(...)):
+    if x_token!=fake_secret_token:
+        raise HTTPException(status_code=400,
+                            detail="Invalid X-Token header"
+                            )
+    
+    if item_id not in fake_db:
+        raise HTTPException(status_code=404,
+                            detail="Item not found"
+                            )
+    return fake_db[item_id]
 
-## Part 31 - Background Tasks
-# def write_notification(email: str, message=""):
-#     with open("log.txt", mode="w") as email_file:
-#         content = f"notification for {email}: {message}"
-#         time.sleep(5)
-#         email_file.write(content)
+@app.post("/items/",response_model=Item)
+async def create_item(item:Item,x_token:str=Header(...)):
+    if x_token!=fake_secret_token:
+        raise HTTPException(status_code=400,
+                            detail="Invalid X-Token header"
+                            )
+    if item.id in fake_db:
+        raise HTTPException(status_code=400,
+                            detail="Item already existed!"
+                            )
+    fake_db[item.id]=item
+    
+    return item
 
-
-# @app.post("/send-notification/{email}", status_code=202)
-# async def send_notification(email: str, background_tasks: BackgroundTasks):
-#     background_tasks.add_task(write_notification, email, message="some notification")
-#     return {"message": "Notification sent in the background"}
-def write_log(message:str):
-    with open("log.txt","a") as log:
-        log.write(message)
-
-def get_query(background_tasks:BackgroundTasks,
-              q:str | None=None
-              ):
-    if q:
-        message=f"found query:{q}\n"
-        background_tasks.add_task(write_log,message)
-    return q
-
-@app.post("/send-notification/{email}")
-async def send_notification(
-    email: str, 
-    background_tasks: BackgroundTasks,
-    q:str=Depends(get_query)
-):
-    message = f"message to {email}\n"
-    background_tasks.add_task(write_log, message)
-    return {"message": "Message sent", "query": q}
-
-
-
+    
 if __name__=='__main__':
   uvicorn.run(app,host='0.0.0.0',port=8000)

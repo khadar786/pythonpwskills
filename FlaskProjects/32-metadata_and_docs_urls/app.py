@@ -26,53 +26,69 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 import uvicorn
 import time
 
+## Part 32: Metadata and Docs URLs
+description="""
+ChimichangApp API helps you do awesome stuff. 🚀
+## Items
+
+You can **read items**.
+
+## Users
+
+You will be able to:
+
+* **Create users** (_not implemented_).
+* **Read users** (_not implemented_).
+"""
+
+tags_metadata = [
+    dict(
+        name="users",
+        description="Operations with users. The **login** logic is also here.",
+    ),
+    dict(
+        name="items",
+        description="Manage items. So _fancy_ they have their own docs.",
+        externalDocs=dict(
+            description="Items external docs", 
+            url="https://www.jvp.design"
+        ),
+    ),
+]
+
 #Init  FastAPI App
-app=FastAPI(default_response_class=ORJSONResponse)
+app=FastAPI(
+    title="ChimichangApp",
+    description=description,
+    version="0.0.1",
+    terms_of_service="http://example.com/terms/",
+    contact=dict(
+        name="Deadpoolio the Amazing",
+        url="http://x-force.example.com/contact",
+        email="dp@x-force.example.com",
+    ),
+    license_info=dict(
+         name="Apache 2.0", 
+         url="https://www.apache.org/licenses/LICENSE-2.0.html"
+    ),
+    openapi_tags=tags_metadata,
+    openapi_url="/api/v1/openapi.json",
+    docs_url="/documentation",
+    redoc_url=None,
+)
 
 #Basic get method
 @app.get("/")
 async def getMethod():
     return {'text':"Fastapi section"}
 
-#Flask config
-flask_app=Flask(__name__)
-#Mount Flask on Faskapi
-app.mount('/qbadmin',WSGIMiddleware(flask_app))
+@app.get("/users", tags=["users"])
+async def get_users():
+    return [dict(name="Harry"), dict(name="Ron")]
 
-## Part 31 - Background Tasks
-# def write_notification(email: str, message=""):
-#     with open("log.txt", mode="w") as email_file:
-#         content = f"notification for {email}: {message}"
-#         time.sleep(5)
-#         email_file.write(content)
-
-
-# @app.post("/send-notification/{email}", status_code=202)
-# async def send_notification(email: str, background_tasks: BackgroundTasks):
-#     background_tasks.add_task(write_notification, email, message="some notification")
-#     return {"message": "Notification sent in the background"}
-def write_log(message:str):
-    with open("log.txt","a") as log:
-        log.write(message)
-
-def get_query(background_tasks:BackgroundTasks,
-              q:str | None=None
-              ):
-    if q:
-        message=f"found query:{q}\n"
-        background_tasks.add_task(write_log,message)
-    return q
-
-@app.post("/send-notification/{email}")
-async def send_notification(
-    email: str, 
-    background_tasks: BackgroundTasks,
-    q:str=Depends(get_query)
-):
-    message = f"message to {email}\n"
-    background_tasks.add_task(write_log, message)
-    return {"message": "Message sent", "query": q}
-
+@app.get("/items",tags=["items"])
+async def read_items():
+    return [dict(name="wand"), dict(name="flying broom")] 
 
 
 if __name__=='__main__':

@@ -46,3 +46,5 @@ FlaskProjects/29-sql_databases/fast-api-frontend/vite.config.js.timestamp-*
 FlaskProjects/29-sql_databases/fast-api-frontend/vite.config.ts.timestamp-*
 FlaskProjects/30-bigger_applications_multiple_files/fastapi
 FlaskProjects/31-background_tasks/fastapi
+FlaskProjects/32-metadata_and_docs_urls/fastapi
+FlaskProjects/33-static_files_testing_and_debugging/fastapi
