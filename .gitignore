@@ -49,3 +49,4 @@ FlaskProjects/31-background_tasks/fastapi
 FlaskProjects/32-metadata_and_docs_urls/fastapi
 FlaskProjects/33-static_files_testing_and_debugging/fastapi
 DataScienceMasters/WorkingwithSQL/dbenv
+DataScienceMasters/WorkingwithMongoDB/dbenv
