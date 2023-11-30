@@ -50,3 +50,7 @@ FlaskProjects/32-metadata_and_docs_urls/fastapi
 FlaskProjects/33-static_files_testing_and_debugging/fastapi
 DataScienceMasters/WorkingwithSQL/dbenv
 DataScienceMasters/WorkingwithMongoDB/dbenv
+FlaskProjects/FlaskBasics1/flaskenv
+FlaskProjects/FlaskBasics1/__pycache__
+FlaskProjects/FlaskBasics2/flaskenv
+FlaskProjects/FlaskBasics2/__pycache__
