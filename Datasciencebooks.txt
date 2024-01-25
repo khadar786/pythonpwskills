@@ -1,0 +1,60 @@
+Deep learning from scratch (O'Reilly)
+The Elements of Statistical Learning (Data Mining,Interfaces and Prediction)
+
+Practical Deep learning for Cloud,Mobile & Edge (O'Reilly)
+https://www.amazon.in/Practical-Deep-Learning-Cloud-Mobile/dp/149203486X
+
+Deep learning Ian Goodfellow,Yoshua Bengio and Aaron Courville
+https://www.amazon.in/Deep-Learning-Ian-Goodfellow/dp/0262035618/ref=pd_sbs_d_sccl_3_3/260-0237352-7444028?pd_rd_w=k1F42&content-id=amzn1.sym.aa4ffb94-290e-44f4-a319-4a955b2c863d&pf_rd_p=aa4ffb94-290e-44f4-a319-4a955b2c863d&pf_rd_r=AJSDBQM71M6WGAKM8PC4&pd_rd_wg=8rSzo&pd_rd_r=690cf700-257a-421c-928a-ec0c5241744e&pd_rd_i=0262035618&psc=1
+
+The Hundred Page Machine Learning Book
+https://www.amazon.in/The-Hundred-Page-Machine-Learning-Book/dp/199957950X/ref=monarch_sidesheet
+
+Designing Machine Learning Systems
+https://www.amazon.in/Designing-Machine-Learning-Systems-Production-Ready/dp/9355422679
+
+Hands-On Machine Learning with Scikit-Learn,Keras & TensorFlow
+https://www.amazon.in/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/9355421982/ref=bmx_dp_jibjzwhn_d_sccl_3_6/260-0237352-7444028?pd_rd_w=g8RHE&content-id=amzn1.sym.85a27e57-4346-4e4d-9553-9d066718f360&pf_rd_p=85a27e57-4346-4e4d-9553-9d066718f360&pf_rd_r=WSWAJY4F88SSDZCG0WKQ&pd_rd_wg=RWLxN&pd_rd_r=8e63ce1e-1e96-448a-b70d-7050a669cbe1&pd_rd_i=9355421982&psc=1
+
+Deep learning with Python
+https://www.amazon.in/Deep-Learning-Python-Francois-Chollet/dp/1617294438
+
+An Introduction to Statistical Learning
+https://www.amazon.in/Introduction-Statistical-Learning-Applications-Statistics/dp/3031387465
+
+Mathematics textbook for class XLL part 1
+https://www.amazon.in/Ncert-Mathematics-Part-Class-Original/dp/B08GSMD3HP/ref=asc_df_B08GSMD3HP/?tag=googleshopdes-21&linkCode=df0&hvadid=397006632931&hvpos=&hvnetw=g&hvrand=16650308044993240898&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9040202&hvtargid=pla-973595472921&psc=1&mcid=3bc7aa3a22883c0389a86156186f0c80&ext_vrnc=hi&gclid=Cj0KCQiAm4WsBhCiARIsAEJIEzWYiN1LpCP_t0DFm2eH1doGSb0aU3U2ZNJqlrlOeESh4KRRZStVsWsaAnRTEALw_wcB
+
+Think stats
+Practical Statistics for Data Scientists: 50+ Essential Concepts Using R and Python
+
+https://greenteapress.com/thinkstats2/thinkstats2.pdf
+
+
+=============================================================
+Python:
+https://www.amazon.in/Python-Crash-Course-Eric-Matthes/dp/1718502702/ref=zg_mg_g_14447039031_d_sccl_2/260-0237352-7444028?psc=1
+https://www.amazon.in/Automate-Boring-Stuff-Python-2nd/dp/1718502095/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=1565691996&sr=8-6
+
+DS:
+https://www.amazon.in/dp/8192107590/?coliid=I18UEQOM9JVGRQ&colid=1R4BI7XWQ5HPD&psc=1&ref_=list_c_wl_lv_ov_lig_dp_it
+
+Statistics:
+Mathematics textbook for class XLL part 1
+https://www.amazon.in/Ncert-Mathematics-Part-Class-Original/dp/B08GSMD3HP/ref=asc_df_B08GSMD3HP/?tag=googleshopdes-21&linkCode=df0&hvadid=397006632931&hvpos=&hvnetw=g&hvrand=16650308044993240898&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9040202&hvtargid=pla-973595472921&psc=1&mcid=3bc7aa3a22883c0389a86156186f0c80&ext_vrnc=hi&gclid=Cj0KCQiAm4WsBhCiARIsAEJIEzWYiN1LpCP_t0DFm2eH1doGSb0aU3U2ZNJqlrlOeESh4KRRZStVsWsaAnRTEALw_wcB
+
+
+ML:
+https://www.amazon.in/dp/9355421982/?coliid=I1ET586EQUMXL5&colid=1R4BI7XWQ5HPD&psc=1&ref_=list_c_wl_lv_ov_lig_dp_it
+
+The Hundred Page Machine Learning Book
+https://www.amazon.in/The-Hundred-Page-Machine-Learning-Book/dp/199957950X/ref=monarch_sidesheet
+
+https://www.amazon.in/Practical-Statistics-Data-Scientists-2e/dp/149207294X
+https://www.amazon.in/Designing-Machine-Learning-Systems-Production-Ready/dp/9355422679/ref=cm_cr_arp_d_product_top?ie=UTF8
+
+ThinkStats2
+https://www.amazon.in/Think-Stats-Allen-B-Downey/dp/9351108562/ref=sr_1_1?crid=1Z03TKS86MFQY&keywords=think+stats+exploratory+data+analysis+in+python&qid=1705221985&s=books&sprefix=Think+Stats%3A+Exploratory+Data+Analysis+%2Cstripbooks%2C250&sr=1-1
+https://greenteapress.com/wp/think-stats-2e/
+https://martin.zinkevich.org/rules_of_ml/rules_of_ml.pdf
+https://www.deeplearningbook.org/
