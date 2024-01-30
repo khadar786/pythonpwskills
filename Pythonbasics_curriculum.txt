@@ -1,0 +1,176 @@
+1.Basics
+	Comments
+	Numbers
+	Variables are case senssitive
+	Reserved keywords
+	Typecasting
+	Dynamic Typing
+	concatenation between different types
+
+2.Python Programming Language Overview
+	Introduction
+	Python Version
+	Python Version
+	Why to use Python
+	What can be done with Python
+	Zen of Python
+
+3.Control Flow
+Decision Making Statement
+	if
+	if else
+	if elif else
+	Nested if
+	Single Statement Suites
+	Single Statement Suites
+	
+Loops Statements
+	while Loop
+	for Loop
+	Nested loops
+	Loop Control
+	break
+	continue
+	pass
+	
+
+4.Python Condition and Loops
+	Print
+	f string
+	format
+	placeholder
+
+5. Python Operators and Lists 
+Logical Operators
+	And
+	or
+	not
+	Equality Operators
+	
+Comparison operation
+	<	less than
+	<=	less than or equal to
+	>	greater than
+	>=	greater than or equal to
+	
+Arithmethic Operations
+	+	addition
+	-	subtraction
+	*	multiplication
+	/	true division
+	//	integer division
+	%	the modulo operator
+	
+Bitwise Operators
+	∼	bitwise complement (prefix unary operator)
+	&	bitwise and
+	|	bitwise or
+	^	bitwise exclusive-or
+	<<	shift bits left, filling in with zeros
+	>>	shift bits right, filling in with sign bit
+
+Strings
+	slice operation
+	concatentaion
+	SString upper and lowercase
+
+6.Expressions,_Operators,_and_Precedence
+Logical
+	not	unary negation
+	and	conditional AND
+	or	conditional OR
+
+Equality
+	is	a is b returns true if variable/identifiers a and b points to the same object
+	is not	a is not b returns true if variable/identifiers a and b points to the different object
+	==	a == b returns true if variable/identifiers a and b has same value
+	!=	a != b returns true if variable/identifiers a and b has different value
+
+Comparision
+	<	less than
+	<=	less than or equal to
+	>	greater than
+	>=	greater than or equal to
+
+Arithmetic
+	+	addition
+	-	subtraction
+	*	multiplication
+	/	true division
+	//	integer division
+	%	the modulo operator
+	
+Bitwise
+	∼	bitwise complement (prefix unary operator)
+	&	bitwise and
+	|	bitwise or
+	^	bitwise exclusive-or
+	<<	shift bits left, filling in with zeros
+	>>	shift bits right, filling in with sign bit
+
+	Operators for Sets and Dictionaries
+	Extended Assignment Operators
+	Operator Precedence
+
+7.String manipulation
+	String operations
+	String length
+	Count characters in a string
+	String split operation
+	Change strings to upper & lower case
+	Reverse string
+	Removing characters from the end of the string
+	Join operation in string
+	Replace string
+	Formatting
+	Checking string case
+	Iterate through a string
+	Reversing a String
+	typecasting
+	Removing character from the end of the string
+	List
+	List Comprehension
+	we use index to iterate string reverse direction
+
+8.List,Tuples, Set, Dictionaries
+
+9.Functions Basics, Parameter Passing, Iterators.
+Generator Functions
+
+10.Lambda Functions
+Map, Reduce, Filter Functions.
+
+11.OOPS
+Polymorphism
+Encapsulation
+Inheritance
+Abstraction
+Decorators
+Class Methods
+Static Method
+Special(Magic / Dunder) Methods
+
+12.Working With Files
+File open,write,append and read
+rename,open file with other pattern
+Module : os,shutil
+import os
+import shutil
+Buffered Read And Write Other File Methods
+
+13.Logging Debugger
+
+14.Exception Handling
+
+15.Multithreading
+
+16.Memory Management
+
+17.Database (MySQL)
+
+19.Flask,Webscrapping
+
+
+http://localhost:8889/notebooks/pythonpwskills/
+
+

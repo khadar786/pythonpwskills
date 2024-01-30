@@ -1,0 +1,9 @@
+Pwskills datascience master course
+
+https://www.youtube.com/watch?v=ZaKzw9tULeM&list=PLjVLYmrlmjGfgBKkIFBkMNGG7qyRfo00W
+
+Python NumPy Tutorial | Learn Coding
+https://www.youtube.com/watch?v=I5Q7RdyyFcU
+
+https://www.w3schools.com/python/numpy/numpy_data_types.asp
+https://www.geeksforgeeks.org/introduction-to-numpy/
