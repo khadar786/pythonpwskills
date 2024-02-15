@@ -1,0 +1,16 @@
+2024-02-14 18:00:52,224 this is my info message
+2024-02-14 18:01:10,527 this is my debug message
+2024-02-14 18:01:26,383 this is my error message
+2024-02-14 18:01:47,552 this is my critical message
+2024-02-14 18:03:25,265 this is my warning message
+2024-02-14 18:04:23,795 pickle loaded: C:\Users\khadarbasha\AppData\Local\anaconda3\Lib\logging\__init__.py
+2024-02-14 18:04:24,536 diff parser start
+2024-02-14 18:04:24,537 line_lengths old: 1; new: 1
+2024-02-14 18:04:24,537 -> code[replace] old[1:1] new[1:1]
+2024-02-14 18:04:24,537 parse_part from 1 to 1 (to 0 in part parser)
+2024-02-14 18:04:24,537 diff parser end
+2024-02-14 18:04:24,754 diff parser start
+2024-02-14 18:04:24,755 line_lengths old: 1; new: 1
+2024-02-14 18:04:24,755 -> code[replace] old[1:1] new[1:1]
+2024-02-14 18:04:24,755 parse_part from 1 to 1 (to 0 in part parser)
+2024-02-14 18:04:24,755 diff parser end

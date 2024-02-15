@@ -1,0 +1,10 @@
+DEBUG:root:debug info
+INFO:root:this is my info
+INFO:root:this is my info
+INFO:root:this is my info####
+ERROR:Comm:No such comm target registered: jupyter.widget.control
+WARNING:Comm:No such comm: bf2e2c10-bcd9-45bb-a1d9-6f4af993788f
+DEBUG:Comm:Current comms: []
+INFO:root:this is my info####
+INFO:root:this is my info####
+INFO:root:this is my info####
